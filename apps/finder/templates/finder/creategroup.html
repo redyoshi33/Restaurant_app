@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <title>Create Group</title>
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    </head>
+
+    <body>
+      <div class="container">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <a class="navbar-brand" href="#">10s</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><a href="/profile" class='nav-link'>Home</a></li>
+              <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
+              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+              <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
+            </ul>
+
+          </div>
+        </nav> <br>
+      <h3>Create A Group</h3>
+       <form action='' method='post'>
+          {% csrf_token %}
+          <div class='form-group row'>
+              <label for="name" class="col-sm-2 col-form-label"> Name:</label>
+              <div class="col-sm-10"><input type='text' name='name' placeholder="Name" class="form-control"></div>
+          </div>
+          <div class='form-group'>
+           <input type='submit' value='Create Group' class="btn btn-secondary">
+          </div>
+
+      </form>
+
+    
+      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      </div>
+    </body>
+</html>
