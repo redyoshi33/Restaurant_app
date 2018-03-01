@@ -29,28 +29,28 @@
         </nav> <br>
         <!-- Template requires a user -->
       <h6>Likes</h6>
-      <table class="table table-hover ">
-       <thead class="thead-dark">
+      <table class="table table-hover table-sm">
+       <thead>
          <tr>
-          <th> Cuisine </th>
-          <th> Actions</th>
+          <th class="bg-success text-light"> Cuisine </th>
+          <th class="bg-success text-light"> Actions</th>
         </tr>
       </thead>
       {% for x in likes %}
         <tr>
           <td>  {{x.name}}</a></td>
-          <td> <a href="/profile/preferences/removelike/{{x.id}}"> Remove </a></td>
+          <td > <a href="/profile/preferences/removelike/{{x.id}}"> Remove </a></td>
         </tr>       
         {% endfor %}
       </table>
 
 
       <h6>Dislikes</h6>
-      <table class="table table-hover ">
-       <thead class="thead-dark">
+      <table class="table table-hover table-sm">
+       <thead>
          <tr>
-          <th> Cuisine </th>
-          <th> Actions</th>
+          <th class="bg-secondary text-light"> Cuisine </th>
+          <th class="bg-secondary text-light"> Actions</th>
         </tr>
       </thead>
       {% for x in dislikes %}
@@ -63,11 +63,11 @@
 
 
       <h6>Hates</h6>
-      <table class="table table-hover ">
-       <thead class="thead-dark">
+      <table class="table table-hover table-sm">
+       <thead>
          <tr>
-          <th> Cuisine </th>
-          <th> Actions</th>
+          <th class="bg-danger text-light"> Cuisine </th>
+          <th class="bg-danger text-light"> Actions </th>
         </tr>
       </thead>
       {% for x in hates %}
@@ -80,7 +80,7 @@
 
       <!-- Requires list of cusisines the users has expressed no preferences on-->
    <h6>Cuisines</h6>
-    <table class="table table-hover ">
+    <table class="table table-hover table-sm">
        <thead class="thead-dark">
          <tr>
           <th> Cuisine </th>
