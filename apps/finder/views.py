@@ -2,18 +2,20 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
+from .models import *
+import bcrypt
+
 def index(request):
-	return render(request, 'index.html')
+	return render(request, 'finder/login.html')
 
 def dashboard(request):
 	if 'uid' not in request.session:
 		return redirect('/main')
 	context = {
 		'userinfo': User.objects.get(id=request.session['uid']),
-		'itemwish': Item.objects.filter(users=request.session['uid']),
-		'otheritem': Item.objects.exclude(users=request.session['uid']),
 	}
-	return render(request, 'loginapp/dashboard.html', context)
+	return render(request, 'finder/dashboard.html', context)
 
 def regis(request):
 	if request.method == 'POST':
