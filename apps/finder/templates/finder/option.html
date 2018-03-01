@@ -2,7 +2,7 @@
 
 <html>
     <head>
-      <title>Dashboard</title>
+      <title>Options</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
        <link rel="stylesheet" type="text/css" href="/static/styles.css">
@@ -23,47 +23,24 @@
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/profile" class='nav-link'>Home</a></li>
               <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
-              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>               
+              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>                             
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
             </ul>
 
           </div>
-        </nav> 
+        </nav>
 <br>
-        <h3>Users</h3>
 
-
-
-     
-     <form action="" method='post'>
-       <h6> Search Users</h6>
-     {% csrf_token %}
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search users...">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button">Go!</button>
-      </span>
-    </div>
-    </form>
-
-     <h6> All Users</h6>
-    <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-          <th> Actions</th>
-        </tr>
-      </thead>
-
-      <!-- This Template requires a list of friends passed in where the user is NOT a friend.-->        
-      {% for user in users %}
-        <tr>
-          <td> <a href="{{user.id}}/">{{user.name}}</a></td>
-          <td> <a href="{{user.id}}/"> Add Friend </a>{}</td>
-        </tr>
-        
-        {% endfor %}
-      </table>
+      <!-- Expects 3 resturants to be passed in -->
+      {% for option in options %}
+        <h3>Option:
+        <small class="text-muted"> {{option.name}}</small>
+        </h3>
+        <p> Cuisine Type:{{option.cusine_type}}</p>
+      {% endfor %}
+<br>
+        <a href="" ><button class="btn btn-secondary" type="button">Try Again!</button></a>
 
 
      
