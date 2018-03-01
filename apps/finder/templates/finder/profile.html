@@ -35,11 +35,29 @@
         </h3>
 
         <ul class="list-unstyled">
-          <li> Likes: {{user.likes}}</li>
-          <li> Dislikes: {{user.dislikes}}</li>
-          <li> Hates: {{user.hates}}</li>
+          <li> Likes: 
+            <ul>
+              {% for x in likes %}
+              <li>{{x.name}}</li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li> Dislikes: 
+            <ul>
+              {% for x in dislikes %}
+              <li>{{x.name}}</li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li> Hates: 
+            <ul>
+              {% for x in hates %}
+              <li>{{x.name}}</li>
+              {% endfor %}
+            </ul>
+          </li>
           {% if user.id == sessionid %}
-          <li>  <a href="">Edit Preferences</a></li>
+          <li>  <a href="/profile/preferences">Edit Preferences</a></li>
           {% endif %}
         </ul>
 
@@ -57,7 +75,7 @@
       {% for friend in friends %}
         <tr>
 
-          <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
+          <td> <a href="/profile/{{friend.id}}">{{friend.name}}</a></td>
           <td> <a href="/acceptfriends/{{friend.id}}/"> Accept </a><a href="/denyfriends/{{friend.id}}"> Deny </a></td>
         </tr>
         

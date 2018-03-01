@@ -44,18 +44,63 @@ def login(request):
 			return redirect('/dashboard')
 
 def profile(request, id):
-	
-	user = User.objects.get(id=request.session['uid'])
+	user = User.objects.get(id=id)
 	friends = Friendrequest.objects.filter(recieved_by=user)
 	user_friends = []
 	for friend in friends:
 		user_friends.append(friend.sent_by)
 	context = {
-		'user': User.objects.get(id=id),
+		'user': user,
 		'sessionid': request.session['uid'],
-		'friends': user_friends
+		'friends': user_friends,
+		'likes': user.likes.all(),
+		'dislikes': user.dislikes.all(),
+		'hates': user.hates.all(),
 	}
 	return render(request, 'finder/profile.html', context)
+
+def preferences(request):
+	user = User.objects.get(id=request.session['uid'])
+	likes = user.likes.all()
+	dislikes = user.dislikes.all()
+	hates = user.hates.all()
+	cuisines = Cuisine.objects.all()
+	othercuisines = []
+	for x in cuisines:
+		if x not in likes and x not in hates and x not in dislikes:
+			othercuisines.append(x)
+	context = {
+		'user': User.objects.get(id=request.session['uid']),
+		'likes': likes,
+		'dislikes': dislikes,
+		'hates': hates,
+		'other': othercuisines,
+	}
+	return render(request, 'finder/preferences.html', context)
+
+def add_like(request, id):
+	User.objects.add_like(request.session['uid'], id)
+	return redirect('/profile/preferences')
+
+def remove_like(request, id):
+	User.objects.remove_like(request.session['uid'], id)
+	return redirect('/profile/preferences')
+
+def add_dislike(request, id):
+	User.objects.add_dislike(request.session['uid'], id)
+	return redirect('/profile/preferences')
+
+def remove_dislike(request, id):
+	User.objects.remove_dislike(request.session['uid'], id)
+	return redirect('/profile/preferences')
+
+def add_hate(request, id):
+	User.objects.add_hate(request.session['uid'], id)
+	return redirect('/profile/preferences')
+
+def remove_hate(request, id):
+	User.objects.remove_hate(request.session['uid'], id)
+	return redirect('/profile/preferences')
 
 def addfriends(request):
 	#looping through friend requests to convert into user objects. comparing user objects with user objects if the request has been sent or recieved by this user.

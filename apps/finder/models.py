@@ -38,6 +38,36 @@ class usersmanager(models.Manager):
 		friend = User.objects.get(id=id)
 		user.friends.remove(friend)
 
+	def add_like(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.likes.add(cuisine)
+
+	def remove_like(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.likes.remove(cuisine)
+
+	def add_dislike(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.dislikes.add(cuisine)
+
+	def remove_dislike(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.dislikes.remove(cuisine)
+
+	def add_hate(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.hates.add(cuisine)
+
+	def remove_hate(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		cuisine = Cuisine.objects.get(id=id)
+		user.hates.remove(cuisine)
+
 class requestsmanager(models.Manager):
 	def friend_request(self, sessionid, id):
 		user = User.objects.get(id=sessionid)

@@ -2,7 +2,7 @@
 
 <html>
     <head>
-      <title>Create Group</title>
+      <title>Preferences</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="/static/styles.css">
@@ -19,7 +19,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
-              <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
+              <li class="nav-item"><a href="/profile/{{user.id}}" class='nav-link'>My Profile</a></li>
               <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
               <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>   
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
@@ -36,10 +36,10 @@
           <th> Actions</th>
         </tr>
       </thead>
-      {% for x in user.likes %}
+      {% for x in likes %}
         <tr>
           <td>  {{x.name}}</a></td>
-          <td> <a href="/removelike/{{x.id}}"> Remove </a></td>
+          <td> <a href="/profile/preferences/removelike/{{x.id}}"> Remove </a></td>
         </tr>       
         {% endfor %}
       </table>
@@ -53,10 +53,10 @@
           <th> Actions</th>
         </tr>
       </thead>
-      {% for x in user.dislikes %}
+      {% for x in dislikes %}
         <tr>
           <td>  {{x.name}}</a></td>
-          <td> <a href="/removedislike/{{x.id}}"> Remove </a></td>
+          <td> <a href="/profile/preferences/removedislike/{{x.id}}"> Remove </a></td>
         </tr>       
         {% endfor %}
       </table>
@@ -70,10 +70,10 @@
           <th> Actions</th>
         </tr>
       </thead>
-      {% for x in user.hates %}
+      {% for x in hates %}
         <tr>
           <td>  {{x.name}}</a></td>
-          <td> <a href="/removehate/{{x.id}}"> Remove </a></td>
+          <td> <a href="/profile/preferences/removehate/{{x.id}}"> Remove </a></td>
         </tr>       
         {% endfor %}
       </table>
@@ -87,10 +87,10 @@
           <th> Actions</th>
         </tr>
       </thead>
-      {% for x in cuisines %}
+      {% for x in other %}
         <tr>
           <td>  {{x.name}}</a></td>
-          <td> <a href="/addlike/{{x.id}}"> Like </a>  <a href="/adddislike/{{x.id}}"> Like </a>  <a href="/removehate/{{x.id}}"> Like </a></td>
+          <td> <a href="/profile/preferences/addlike/{{x.id}}"> Like </a>  <a href="/profile/preferences/adddislike/{{x.id}}"> Disike </a>  <a href="/profile/preferences/addhate/{{x.id}}"> Hate </a></td>
         </tr>       
         {% endfor %}
       </table>    

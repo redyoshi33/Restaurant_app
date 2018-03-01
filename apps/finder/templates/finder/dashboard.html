@@ -55,9 +55,6 @@
         {% endfor %}
       </table>
       <a href="/creategroup"> Create a New Group </a><br><Br>
-      <a href="/group/1">group link</a>
-
-
       <h6> My Friends:</h6>
     <table class="table table-hover">
        <thead class="thead-dark">
@@ -71,7 +68,7 @@
       {% for friend in myfriends %}
         <tr>
 
-          <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
+          <td> <a href="/profile/{{friend.id}}">{{friend.name}}</a></td>
           <td> <a href="/unfriend/{{friend.id}}/"> Unfriend </a></td>
         </tr>
         
