@@ -33,7 +33,7 @@
       <!-- This Template requires a group-->  
         <h3>{{group.name}}
         </h3>
-
+        <a href="/group/{{group.id}}/leavegroup"> Leave Group</a>
         <h6> Current Location </h6>
 
 
@@ -72,8 +72,26 @@
         <button class="btn btn-secondary" type="button">Go!</button>
       </span>
     </div>
-    </form>
+    </form><br>
+    <h6> My Friends:</h6>
+    <table class="table table-hover">
+       <thead class="thead-dark">
+         <tr>
+          <th> Name </th>
+          <th> Actions</th>
+        </tr>
+      </thead>
 
+      <!-- This Template requires a list of friends passed in where the user is a friend.-->        
+      {% for friend in myfriends %}
+        <tr>
+
+          <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
+          <td> <a href="/group/{{group.id}}/addmember/{{friend.id}}/"> Add to group</a></td>
+        </tr>
+        
+        {% endfor %}
+      </table>
     <br>
     <a href="/group/1/results" ><button class="btn btn-secondary" type="button">Generate!</button></a>
 

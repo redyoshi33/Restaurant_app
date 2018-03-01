@@ -48,8 +48,8 @@
       {% for group in mygroups %}
         <tr>
 
-          <td> <a href="{{group.id}}/">{{group.name}}</a></td>
-          <td> <a href="{{group.id}}/"> Leave </a>{}</td>
+          <td> <a href="/group/{{group.id}}">{{group.name}}</a></td>
+          <td> <a href="group/{{group.id}}/leavegroup"> Leave </a></td>
         </tr>
         
         {% endfor %}

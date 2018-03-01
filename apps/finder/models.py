@@ -54,6 +54,23 @@ class requestsmanager(models.Manager):
 		user.friends.add(friend_user)
 		Friendrequest.objects.deny_request(sessionid, id)
 
+class groupsmanager(models.Manager):
+	def make_group(self, postData, sessionid):
+		group = Group.objects.create(name=postData['name'])
+		user = User.objects.get(id=sessionid)
+		group.members.add(user)
+		return group.id
+	def add_member(self, gid, mid):
+		group = Group.objects.get(id=gid)
+		user = User.objects.get(id=mid)
+		group.members.add(user)
+	def leave_group(self,id,sessionid):
+		group = Group.objects.get(id=id)
+		user = User.objects.get(id=sessionid)
+		group.members.remove(user)
+		if len(group.members.all()) ==0:
+			group.delete()
+
 class Cuisine(models.Model):
 	name = models.CharField(max_length=255)
 	created_at = models.DateTimeField(auto_now_add = True)
@@ -76,6 +93,7 @@ class Group(models.Model):
 	members = models.ManyToManyField(User, related_name='groups_in')
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	objects = groupsmanager()
 
 class Restaurant(models.Model):
 	name = models.CharField(max_length=255)

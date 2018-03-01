@@ -16,7 +16,8 @@ def dashboard(request):
 	context = {
 		'userinfo': User.objects.get(id=request.session['uid']),
 		'sessionid': request.session['uid'],
-		'myfriends': user.friends.all()
+		'myfriends': user.friends.all(),
+		'mygroups': Group.objects.filter(members=user)
 	}
 	return render(request, 'finder/dashboard.html', context)
 
@@ -99,11 +100,35 @@ def creategroup(request):
 	}
 	return render(request, 'finder/creategroup.html', context)
 
+def submitgroup(request):
+	if request.method == 'POST':
+		groupid = Group.objects.make_group(request.POST, request.session['uid'])
+	return redirect('/group/'+str(groupid))
+
 def group(request, id):
+	group = Group.objects.get(id=id)
+	group_members = group.members.all()
+	user = User.objects.get(id=request.session['uid'])
+	user_friends = user.friends.all()
+	friends_to_add = []
+	for x in user_friends:
+		if x not in group_members:
+			friends_to_add.append(x)
 	context = {
 		'sessionid': request.session['uid'],
+		'group': group,
+		'users': group_members,
+		'myfriends': friends_to_add,
 	}
 	return render(request, 'finder/group.html', context)
+
+def addmember(request, gid, mid):
+	Group.objects.add_member(gid,mid)
+	return redirect('/group/'+str(gid))
+
+def leavegroup(request, id):
+	Group.objects.leave_group(id,request.session['uid'])
+	return redirect('/dashboard')
 
 def results(request, id):
 	context = {
