@@ -2,7 +2,7 @@
 
 <html>
     <head>
-      <title>Dashboard</title>
+      <title>Group</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
        <link rel="stylesheet" type="text/css" href="/static/styles.css">
@@ -23,31 +23,38 @@
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/profile" class='nav-link'>Home</a></li>
               <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
-              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li> 
+              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>              
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
             </ul>
 
           </div>
         </nav> 
 <br>
-        <h3>Users</h3>
+      <!-- This Template requires a group-->  
+        <h3>{{group.name}}
+        </h3>
+
+        <h6> Current Location </h6>
 
 
+      <!-- This Template requires a list of users who are members of the group.-->   
 
-      <h6> All Users</h6>
+
+      <h6>Members:</h6>
     <table class="table table-hover">
        <thead class="thead-dark">
          <tr>
           <th> Name </th>
-          <th> Actions</th>
+
         </tr>
       </thead>
 
-      <!-- This Template requires a list of friends passed in where the user is NOT a friend.-->        
+      <!-- This Template requires a list of users who have requested CURRENT USER to be a friend.-->        
       {% for user in users %}
         <tr>
-          <td> <a href="{{user.id}}/">{{user.name}}</a></td>
-          <td> <a href="{{user.id}}/"> Add Friend </a>{}</td>
+
+          <td> <a href="{{friend.id}}/">{{user.name}}</a></td>
+
         </tr>
         
         {% endfor %}
