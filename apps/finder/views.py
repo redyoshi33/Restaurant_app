@@ -105,7 +105,12 @@ def remove_hate(request, id):
 def addfriends(request):
 	#looping through friend requests to convert into user objects. comparing user objects with user objects if the request has been sent or recieved by this user.
 	this_user = User.objects.get(id=request.session['uid'])
-	users = User.objects.exclude(id=request.session['uid']).exclude(friends=this_user)
+
+	if request.method == 'POST':
+		users = User.objects.exclude(id=request.session['uid']).exclude(friends=this_user).filter(name = request.POST['search'])
+
+	else:
+		users = User.objects.exclude(id=request.session['uid']).exclude(friends=this_user)
 	requests = Friendrequest.objects.filter(sent_by=this_user)
 	requests2 = Friendrequest.objects.filter(recieved_by=this_user)
 	excludedusers = []
@@ -154,7 +159,12 @@ def group(request, id):
 	group = Group.objects.get(id=id)
 	group_members = group.members.all()
 	user = User.objects.get(id=request.session['uid'])
-	user_friends = user.friends.all()
+	if request.method == 'POST':
+		print request.POST['search']
+		user_friends = user.friends.filter(name = request.POST['search'])
+		print user_friends
+	else:
+		user_friends = user.friends.all()
 	friends_to_add = []
 	for x in user_friends:
 		if x not in group_members:

@@ -25,8 +25,4 @@ urlpatterns = [
     url(r'^group/(?P<gid>\d+)/addmember/(?P<mid>\d+)/$', views.addmember),
     url(r'^group/(?P<id>\d+)/leavegroup$', views.leavegroup),
     url(r'^group/(?P<id>\d+)/results$', views.results),
-    # url(r'^group/create$', views.groupcreate),
-    # url(r'^group/create/submit$', views.groupsubmit),
-    # url(r'^group/leave/(?P<id>\d+)$', views.groupleave),
-    # url(r'^delete/(?P<id>\d+)$', views.delete),
 ]
