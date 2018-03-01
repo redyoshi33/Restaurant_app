@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <title>Create Group</title>
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    </head>
+
+    <body>
+      <div class="container">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <a class="navbar-brand" href="#">10s</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
+              <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
+              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>   
+              <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
+            </ul>
+
+          </div>
+        </nav> <br>
+        <!-- Template requires a user -->
+      <h6>Likes</h6>
+      <table class="table table-hover ">
+       <thead class="thead-dark">
+         <tr>
+          <th> Cuisine </th>
+          <th> Actions</th>
+        </tr>
+      </thead>
+      {% for x in user.likes %}
+        <tr>
+          <td>  {{x.name}}</a></td>
+          <td> <a href="/removelike/{{x.id}}"> Remove </a></td>
+        </tr>       
+        {% endfor %}
+      </table>
+
+
+      <h6>Dislikes</h6>
+      <table class="table table-hover ">
+       <thead class="thead-dark">
+         <tr>
+          <th> Cuisine </th>
+          <th> Actions</th>
+        </tr>
+      </thead>
+      {% for x in user.dislikes %}
+        <tr>
+          <td>  {{x.name}}</a></td>
+          <td> <a href="/removedislike/{{x.id}}"> Remove </a></td>
+        </tr>       
+        {% endfor %}
+      </table>
+
+
+      <h6>Hates</h6>
+      <table class="table table-hover ">
+       <thead class="thead-dark">
+         <tr>
+          <th> Cuisine </th>
+          <th> Actions</th>
+        </tr>
+      </thead>
+      {% for x in user.hates %}
+        <tr>
+          <td>  {{x.name}}</a></td>
+          <td> <a href="/removehate/{{x.id}}"> Remove </a></td>
+        </tr>       
+        {% endfor %}
+      </table>
+
+      <!-- Requires list of cusisines the users has expressed no preferences on-->
+   <h6>Cuisines</h6>
+    <table class="table table-hover ">
+       <thead class="thead-dark">
+         <tr>
+          <th> Cuisine </th>
+          <th> Actions</th>
+        </tr>
+      </thead>
+      {% for x in cuisines %}
+        <tr>
+          <td>  {{x.name}}</a></td>
+          <td> <a href="/addlike/{{x.id}}"> Like </a>  <a href="/adddislike/{{x.id}}"> Like </a>  <a href="/removehate/{{x.id}}"> Like </a></td>
+        </tr>       
+        {% endfor %}
+      </table>    
+
+
+
+      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      </div>
+    </body>
+</html>
