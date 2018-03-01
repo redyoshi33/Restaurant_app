@@ -39,6 +39,20 @@ def login(request):
 			request.session['uid'] = errors['user'].id
 			return redirect('/dashboard')
 
+def profile(request):
+	return render(request, 'finder/profile.html')
+
+def addfriends(request):
+	return render(request, 'finder/friends.html')
+
+def creategroup(request):
+	return render(request, 'finder/creategroup.html')
+
+def group(request, id):
+	return render(request, 'finder/group.html')
+
+def results(request, id):
+	return render(request, 'finder/option.html')
 
 def logout(request):
 	request.session.clear()

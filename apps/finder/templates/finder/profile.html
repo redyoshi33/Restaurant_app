@@ -21,8 +21,9 @@
           <a class="navbar-brand" href="#">10s</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
-              <li class="nav-item"><a href="/profile" class='nav-link'>Home</a></li>
-              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>              
+              <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
+              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>                
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
             </ul>
 
@@ -34,9 +35,9 @@
         </h3>
 
         <ul class="list-unstyled">
-          <li> Likes: {{user.likes}</li>
-          <li> Dislikes: {{user.dislikes}</li>
-          <li> Hates: {{user.hates}</li>
+          <li> Likes: {{user.likes}}</li>
+          <li> Dislikes: {{user.dislikes}}</li>
+          <li> Hates: {{user.hates}}</li>
           {% if user.id == sessionid %}
           <li>  <a href="">Edit Preferences</a></li>
           {% endif %}

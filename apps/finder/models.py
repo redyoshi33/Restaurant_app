@@ -26,10 +26,10 @@ class usersmanager(models.Manager):
 		errors={}
 		if not User.objects.filter(username=(postData['username']).lower()).exists():
 			errors['fail'] = 'Email/password input incorrect'
-		elif not bcrypt.checkpw(postData['pword'].encode(), User.objects.get(username=(postData['uname']).lower()).pword.encode()):
+		elif not bcrypt.checkpw(postData['password'].encode(), User.objects.get(username=(postData['username']).lower()).password.encode()):
 			errors['fail'] = 'Email/password input incorrect'
 		else:
-			uid = User.objects.get(username=(postData['uname']).lower())
+			uid = User.objects.get(username=(postData['username']).lower())
 			errors['user'] = uid
 		return errors
 
