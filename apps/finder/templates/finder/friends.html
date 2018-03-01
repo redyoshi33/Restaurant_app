@@ -22,7 +22,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
-              <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
+              <li class="nav-item"><a href="/profile/{{sessionid}}" class='nav-link'>My Profile</a></li>
               <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>               
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
             </ul>
@@ -58,8 +58,8 @@
       <!-- This Template requires a list of friends passed in where the user is NOT a friend.-->        
       {% for user in users %}
         <tr>
-          <td> <a href="{{user.id}}/">{{user.name}}</a></td>
-          <td> <a href="{{user.id}}/"> Add Friend </a>{}</td>
+          <td> <a href="/profile/{{user.id}}">{{user.name}}</a></td>
+          <td> <a href="/addfriends/request/{{user.id}}"> Add Friend </a></td>
         </tr>
         
         {% endfor %}

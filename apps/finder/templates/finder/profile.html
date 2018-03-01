@@ -54,11 +54,11 @@
       </thead>
 
       <!-- This Template requires a list of users who have requested CURRENT USER to be a friend.-->        
-      {% for user in users %}
+      {% for friend in friends %}
         <tr>
 
-          <td> <a href="{{friend.id}}/">{{user.name}}</a></td>
-          <td> <a href="{{friend.id}}/"> Accept </a><a href="{{friend.id}}/"> Deny </a></td>
+          <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
+          <td> <a href="/acceptfriends/{{friend.id}}/"> Accept </a><a href="/denyfriends/{{friend.id}}"> Deny </a></td>
         </tr>
         
         {% endfor %}

@@ -33,6 +33,27 @@ class usersmanager(models.Manager):
 			errors['user'] = uid
 		return errors
 
+	def unfriend(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		friend = User.objects.get(id=id)
+		user.friends.remove(friend)
+
+class requestsmanager(models.Manager):
+	def friend_request(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		friend_user = User.objects.get(id=id)
+		user_request = Friendrequest.objects.create(sent_by=user, recieved_by=friend_user)
+	def deny_request(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		friend_user = User.objects.get(id=id)
+		userrequest = Friendrequest.objects.get(sent_by=friend_user, recieved_by=user)
+		userrequest.delete()
+	def accept_request(self, sessionid, id):
+		user = User.objects.get(id=sessionid)
+		friend_user = User.objects.get(id=id)
+		user.friends.add(friend_user)
+		Friendrequest.objects.deny_request(sessionid, id)
+
 class Cuisine(models.Model):
 	name = models.CharField(max_length=255)
 	created_at = models.DateTimeField(auto_now_add = True)
@@ -46,7 +67,6 @@ class User(models.Model):
 	dislikes = models.ManyToManyField(Cuisine, related_name='disliked_by')
 	hates = models.ManyToManyField(Cuisine, related_name='hated_by')
 	friends = models.ManyToManyField("self", related_name='friended_by')
-	requests_given = models.ManyToManyField("self", related_name='requests_recieved')
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	objects = usersmanager()
@@ -64,3 +84,33 @@ class Restaurant(models.Model):
 	cuisine_type = models.ManyToManyField(Cuisine, related_name='restaurants')
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+
+class Friendrequest(models.Model):
+	sent_by = models.ForeignKey(User, related_name='requests_sent')
+	recieved_by = models.ForeignKey(User, related_name='requests_recieved')
+	created_at = models.DateTimeField(auto_now_add = True)
+	updated_at = models.DateTimeField(auto_now = True)
+	objects = requestsmanager()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

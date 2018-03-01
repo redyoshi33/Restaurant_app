@@ -21,7 +21,7 @@
           <a class="navbar-brand" href="#">10s</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
-              <li class="nav-item"><a href="/profile" class='nav-link'>My Profile</a></li>
+              <li class="nav-item"><a href="/profile/{{sessionid}}" class='nav-link'>My Profile</a></li>
               <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
               <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li> 
               <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
@@ -72,7 +72,7 @@
         <tr>
 
           <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
-          <td> <a href="{{friend.id}}/"> Unfriend </a>{}</td>
+          <td> <a href="/unfriend/{{friend.id}}/"> Unfriend </a></td>
         </tr>
         
         {% endfor %}
