@@ -18,7 +18,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <a class="navbar-brand" href="#">10s</a>
+          <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
@@ -31,16 +31,69 @@
           </div>
         </nav>
 <br>
+        <div id="map" style='height: 300px'></div>
+              <script>
+                var map; 
+                
+                function initMap() {
+                  var bounds = new google.maps.LatLngBounds();
+                  var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
+                  var infoWindow = new google.maps.InfoWindow()
+                  map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 13
+                  });
+                  var marker
+                  marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Location_marker'
+                  });
+                  google.maps.event.addListener(marker, 'click', (function(marker) {
+                        return function() {
+                            infoWindow.setContent('Our location');
+                            infoWindow.open(map, marker);
+                        }
+                    })(marker));
+                  var markers = [
+                  {% for choice in choices %}
+                    ["{{choice.name}}", {{choice.lat}}, {{choice.lon}}],
+                  {% endfor %}
+                  ]
+                  for( i = 0; i < markers.length; i++ ) {
+                    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                    bounds.extend(position);
+                    marker = new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        title: markers[i][0]
+                    });
+                    
+                    // Allow each marker to have an info window    
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            infoWindow.setContent(markers[i][0]);
+                            infoWindow.open(map, marker);
+                        }
+                    })(marker, i));
+
+                    // Automatically center the map fitting all markers on the screen
+                    map.fitBounds(bounds);
+                }
+              }
+              </script>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap" async defer></script>
 
       <!-- Expects 3 resturants to be passed in -->
-      {% for option in options %}
+      {% for option in choices %}
         <h3>Option:
         <small class="text-muted"> {{option.name}}</small>
         </h3>
-        <p> Cuisine Type:{{option.cusine_type}}</p>
+        <p> Cuisine Type: {{option.cuisine.capitalize}}</p>
+        <p> Address: {{option.address}}</p>
       {% endfor %}
 <br>
-        <a href="" ><button class="btn btn-secondary" type="button">Try Again!</button></a>
+        <a href="/group/{{group.id}}/generate" ><button class="btn btn-secondary" type="button">Try Again!</button></a>
 
 
      

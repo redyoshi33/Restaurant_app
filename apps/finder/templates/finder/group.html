@@ -18,7 +18,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <a class="navbar-brand" href="#">10s</a>
+          <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav mr-auto">
               <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
@@ -35,7 +35,25 @@
         </h3>
         <a href="/group/{{group.id}}/leavegroup"> Leave Group</a>
         <h6> Current Location </h6>
-
+        <div id="map" style='height: 300px'></div>
+              <script>
+                var map; 
+                
+                function initMap() {
+                  var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
+                  map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 13
+                  });
+                  var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Location_marker'
+                  });
+                }
+              </script>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap"
+              async defer></script>
 
       <!-- This Template requires a list of users who are members of the group.-->   
 
@@ -93,7 +111,7 @@
         {% endfor %}
       </table>
     <br>
-    <a href="/group/1/results" ><button class="btn btn-secondary" type="button">Generate!</button></a>
+    <a href="/group/{{group.id}}/generate" ><button class="btn btn-secondary" type="button">Generate!</button></a>
 
 
       <!-- read on to learn about form actions, we'll talk about the method in a later section -->

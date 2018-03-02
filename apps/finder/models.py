@@ -4,6 +4,10 @@ from __future__ import unicode_literals
 from django.db import models
 import re
 import bcrypt
+import requests
+import json
+import random
+
 
 class usersmanager(models.Manager):
 	def basic_validator_register(self, postData):
@@ -86,10 +90,26 @@ class requestsmanager(models.Manager):
 
 class groupsmanager(models.Manager):
 	def make_group(self, postData, sessionid):
-		group = Group.objects.create(name=postData['name'])
 		user = User.objects.get(id=sessionid)
-		group.members.add(user)
-		return group.id
+		plus='+'
+		url = 'https://maps.googleapis.com/maps/api/geocode/json?address=?'
+		address1 =  postData['address1'].split()
+		address2 = postData['address2'].split()
+		for x in address2:
+			address1.append(x)
+		temp = plus.join([str(x) for x in address1])
+		url += temp
+		apikey = '&key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q'
+		url += apikey
+		response = requests.get(url)
+		json_data = json.loads(response.text)
+		if(json_data['results']):
+			latitude =  json_data['results'][0]['geometry']['location']['lat']
+			longitude = json_data['results'][0]['geometry']['location']['lng']
+			group = Group.objects.create(name=postData['name'], lat=latitude, lon=longitude)
+			group.members.add(user)
+			return group.id
+		return False
 	def add_member(self, gid, mid):
 		group = Group.objects.get(id=gid)
 		user = User.objects.get(id=mid)
@@ -100,6 +120,78 @@ class groupsmanager(models.Manager):
 		group.members.remove(user)
 		if len(group.members.all()) ==0:
 			group.delete()
+	def randomcuisine(self, id):
+		group = Group.objects.get(id=id)
+		members = group.members.all()
+		cuisines = Cuisine.objects.all()
+		excluded = []
+		cuisinepoints = {}
+		total = 0 
+		for member in members:
+			for hate in member.hates.all():
+				if hate not in excluded:
+					excluded.append(hate)
+		for cuisine in cuisines:
+			if cuisine not in excluded:
+				cuisinepoints[cuisine.name] = 0
+		for member in members:
+			for likes in member.likes.all():
+				if likes not in excluded:
+					cuisinepoints[likes.name] += 1
+			for dislikes in member.dislikes.all():
+				if dislikes not in excluded:
+					cuisinepoints[dislikes.name] -= 1
+		for x in cuisinepoints:
+			if cuisinepoints[x] > 0:
+				total += cuisinepoints[x]
+			
+		for x in cuisinepoints:
+			if cuisinepoints[x] > 0:
+				cuisinepoints[x] = float(cuisinepoints[x])/float(total)
+
+		apikey = 'o8NWFy7GaV5Eg6A42a4WUekBxdipkF0Cg7cfsdKMyzMG7qUiXbq--lOx4_FGX3_B8L6BnnXl743SPoB0QwYmz0k6nXcP5UJFr5nDWgFBhQypv10QjoI9W9UVS0-XWnYx'
+		headers = {'Authorization': 'Bearer %s' % apikey}
+		parameters = {
+			'term':'restaurants',
+			'latitude': group.lat,
+			'longitude': group.lon,
+			'radius':10000,
+		}
+		##Alias: is category
+		
+		response = requests.get("https://api.yelp.com/v3/businesses/search", params=parameters, headers=headers)
+		json_data=json.loads(response.text)
+
+		restaurants =[]
+		for x in  json_data['businesses']:
+			restaurant = {}
+			restaurant['name']= x['name']
+			restaurant['cuisine'] = x['categories'][0]['alias']
+			restaurant['address'] = " ".join(x['location']['display_address'])
+			restaurant['lat'] = x['coordinates']['latitude']
+			restaurant['lon'] = x['coordinates']['longitude']
+			restaurants.append(restaurant)
+
+		random.shuffle(restaurants)
+
+		selections = []
+		for i in range(0,3):
+			temp_sum = 0
+			rand = random.random()
+			for x in cuisinepoints:
+				if cuisinepoints[x] > 0:
+					if rand < temp_sum + cuisinepoints[x]:
+						selections.append(x)
+						break
+					temp_sum += cuisinepoints[x]
+		choices = []
+		for selection in selections:		
+			for rest in restaurants:
+				if rest['cuisine'].lower() == selection.lower():
+					if rest not in choices:
+						choices.append(rest)
+						break
+		return choices
 
 class Cuisine(models.Model):
 	name = models.CharField(max_length=255)
@@ -121,17 +213,12 @@ class User(models.Model):
 class Group(models.Model):
 	name = models.CharField(max_length=255)
 	members = models.ManyToManyField(User, related_name='groups_in')
+	lon = models.DecimalField(max_digits=9, decimal_places=6)
+	lat = models.DecimalField(max_digits=9, decimal_places=6)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	objects = groupsmanager()
 
-class Restaurant(models.Model):
-	name = models.CharField(max_length=255)
-	lon = models.DecimalField(max_digits=9, decimal_places=6)
-	lat = models.DecimalField(max_digits=9, decimal_places=6)
-	cuisine_type = models.ManyToManyField(Cuisine, related_name='restaurants')
-	created_at = models.DateTimeField(auto_now_add = True)
-	updated_at = models.DateTimeField(auto_now = True)
 
 class Friendrequest(models.Model):
 	sent_by = models.ForeignKey(User, related_name='requests_sent')

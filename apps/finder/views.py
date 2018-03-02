@@ -153,7 +153,10 @@ def creategroup(request):
 def submitgroup(request):
 	if request.method == 'POST':
 		groupid = Group.objects.make_group(request.POST, request.session['uid'])
-	return redirect('/group/'+str(groupid))
+		if(groupid):
+			return redirect('/group/'+str(groupid))
+		else:
+			return redirect('/creategroup')
 
 def group(request, id):
 	group = Group.objects.get(id=id)
@@ -184,6 +187,15 @@ def addmember(request, gid, mid):
 def leavegroup(request, id):
 	Group.objects.leave_group(id,request.session['uid'])
 	return redirect('/dashboard')
+
+def generate(request, id):
+	group = Group.objects.get(id=id)
+	choices = Group.objects.randomcuisine(id)
+	context = {
+		'choices': choices,
+		'group': group,
+	}
+	return render(request, 'finder/option.html', context)
 
 def results(request, id):
 	context = {
