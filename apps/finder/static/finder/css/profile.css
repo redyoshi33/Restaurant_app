@@ -1,0 +1,17 @@
+.container li{
+	margin-top: 10px;
+}
+.container ul{
+	margin: 10px;
+	padding-left: 5px;
+}
+.container h6{
+	margin: 0px 0px 20px;
+}
+.container p{
+	margin: 20px;
+}
+.friendreq{
+	border-top: 2px solid #FFA500;
+	padding-top: 20px;
+}

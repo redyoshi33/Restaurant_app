@@ -5,12 +5,12 @@
       <title>Preferences</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="/static/styles.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/preferences.css">
     </head>
 
     <body>
-      <div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm" id='navbar'>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -26,80 +26,83 @@
             </ul>
 
           </div>
-        </nav> <br>
-        <!-- Template requires a user -->
-      <h6>Likes</h6>
-      <table class="table table-hover ">
-       <thead>
-         <tr>
-          <th class="bg-success text-light"> Cuisine </th>
-          <th class="bg-success text-light"> Actions</th>
-        </tr>
-      </thead>
-      {% for x in likes %}
-        <tr>
-          <td>  {{x.name}}</a></td>
-          <td> <a href="/profile/preferences/removelike/{{x.id}}"> Remove </a></td>
-        </tr>       
-        {% endfor %}
-      </table>
-
-
-      <h6>Dislikes</h6>
-      <table class="table table-hover ">
-       <thead>
-         <tr>
-          <th class="bg-secondary text-light"> Cuisine </th>
-          <th class="bg-secondary text-light"> Actions</th>
-        </tr>
-      </thead>
-      {% for x in dislikes %}
-        <tr>
-          <td>  {{x.name}}</a></td>
-          <td> <a href="/profile/preferences/removedislike/{{x.id}}"> Remove </a></td>
-        </tr>       
-        {% endfor %}
-      </table>
-
-
-      <h6>Hates</h6>
-      <table class="table table-hover ">
-       <thead>
-         <tr>
-          <th class="bg-danger text-light"> Cuisine </th>
-          <th class="bg-danger text-light"> Actions</th>
-        </tr>
-      </thead>
-      {% for x in hates %}
-        <tr>
-          <td>  {{x.name}}</a></td>
-          <td> <a href="/profile/preferences/removehate/{{x.id}}"> Remove </a></td>
-        </tr>       
-        {% endfor %}
-      </table>
-
+        </nav>
+      <div class="container">
+      <div class='left-side col-5'>
+        <div class='group'>
+        <table class="table table-hover">
+         <thead class='liked'>
+           <tr class="d-flex">
+            <th class="col-3"> Liked </th>
+            <th class="col-9"> Actions</th>
+          </tr>
+        </thead>
+        {% for x in likes %}
+          <tr class="d-flex">
+            <td class="col-3">  {{x.name}}</a></td>
+            <td class="col-9"><a href="/profile/preferences/removelike/{{x.id}}">  <button class='action'>Remove </button></a></td>
+          </tr>       
+          {% endfor %}
+        </table>
+      </div>
+      <div class='group'>
+        <table class="table table-hover ">
+         <thead class='disliked'>
+           <tr class="d-flex">
+            <th class="col-3"> Disliked </th>
+            <th class="col-9"> Actions</th>
+          </tr>
+        </thead>
+        {% for x in dislikes %}
+          <tr class="d-flex">
+            <td class="col-3">  {{x.name}}</a></td>
+            <td class="col-9"> <a href="/profile/preferences/removedislike/{{x.id}}">  <button class='action'>Remove </button></a></td>
+          </tr>       
+          {% endfor %}
+        </table>
+      </div>
+      <div class='group'>
+        <table class="table table-hover ">
+         <thead class='hated'>
+           <tr class="d-flex">
+            <th class="col-3"> Hated </th>
+            <th class="col-9"> Actions</th>
+          </tr>
+        </thead>
+        {% for x in hates %}
+          <tr class="d-flex">
+            <td class="col-3">  {{x.name}}</a></td>
+            <td class="col-9"><a href="/profile/preferences/removehate/{{x.id}}">  <button class='action'>Remove </button></a></td>
+          </tr>       
+          {% endfor %}
+        </table>
+      </div>
+    </div>
       <!-- Requires list of cusisines the users has expressed no preferences on-->
-   <h6>Cuisines</h6>
-    <table class="table table-hover ">
-       <thead class="thead-dark">
-         <tr>
-          <th> Cuisine </th>
-          <th> Actions</th>
-        </tr>
-      </thead>
-      {% for x in other %}
-        <tr>
-          <td>  {{x.name}}</a></td>
-          <td> <a href="/profile/preferences/addlike/{{x.id}}"> Like </a>  <a href="/profile/preferences/adddislike/{{x.id}}"> Disike </a>  <a href="/profile/preferences/addhate/{{x.id}}"> Hate </a></td>
-        </tr>       
-        {% endfor %}
-      </table>    
-
-
-
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
+    <div class='right-side col-6'>
+      <div class='group'>
+      <table class="table table-hover ">
+         <thead class='all-cuisine'>
+           <tr class="d-flex">
+            <th class="col-3"> Cuisine </th>
+            <th class="col-9"> Actions</th>
+          </tr>
+        </thead>
+        {% for x in other %}
+          <tr class="d-flex">
+            <td class="col-3">  {{x.name}}</a></td>
+            <td class="col-9">  
+              <a href="/profile/preferences/addlike/{{x.id}}"><button class='action'> Like </button></a>
+              <a href="/profile/preferences/adddislike/{{x.id}}"><button class='action'> Disike </button></a>
+              <a href="/profile/preferences/addhate/{{x.id}}"><button class='action'> Hate </button></a>
+              </td>
+          </tr>       
+          {% endfor %}
+        </table>  
+        </div>  
+    </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      </div>
+    </div>
     </body>
 </html>

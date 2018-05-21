@@ -1,0 +1,15 @@
+
+.left-side{
+	display: inline-block;
+	padding: 0px;
+	margin-right: 80px;
+	vertical-align: top;
+}
+.right-side{
+	display: inline-block;
+	padding: 0px;
+}
+
+a {
+	color: white;
+}

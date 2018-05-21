@@ -5,88 +5,89 @@
       <title>Profile</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/profile.css">
 
     </head>
 
     <body>
+      <nav class="navbar navbar-expand-sm" id="navbar">
+        <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
+            <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+            <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li> 
+            <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
+          </ul>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav> 
       <div class="container">
-        
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-             <ul class="navbar-nav mr-auto">
-              <li class="nav-item"><a href="/dashboard" class='nav-link'>Home</a></li>
-              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
-              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li>                
-              <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
-            </ul>
-
-          </div>
-        </nav> 
-<br>
         <h3>{{user.username}}
-        <small class="text-muted"> {{user.name}}</small>
+        <h4 class="text-muted"> {{user.name}}</h4>
         </h3>
-
-        <ul class="list-unstyled">
-          <li> Likes: 
-            <ul>
+        {% if user.id == sessionid %}
+          <a href="/profile/preferences">Edit Preferences</a>
+        {% endif %}
+        <ul class="row list-unstyled">
+          <div class='col-4'>
+            <ul> <h4>Likes: </h4>
               {% for x in likes %}
-              <li>{{x.name}}</li>
+                <li>{{x.name}}</li>
               {% endfor %}
             </ul>
-          </li>
-          <li> Dislikes: 
-            <ul>
+          </div>
+          <div class='col-4'>
+            <ul> <h4>Dislikes: </h4>
               {% for x in dislikes %}
-              <li>{{x.name}}</li>
+                <li>{{x.name}}</li>
               {% endfor %}
             </ul>
-          </li>
-          <li> Hates: 
-            <ul>
+          </div>
+          <div class='col-4'>
+            <ul> <h4>Hates: </h4>
               {% for x in hates %}
-              <li>{{x.name}}</li>
+                <li>{{x.name}}</li>
               {% endfor %}
             </ul>
-          </li>
-          {% if user.id == sessionid %}
-          <li>  <a href="/profile/preferences">Edit Preferences</a></li>
-          {% endif %}
+          </div>
         </ul>
+    <div class='friendreq'>
+    {% if user.id == sessionid %}
+          <h6> Friend Requests:</h6>
+        {% if no_request %}
+        <p>No new friend requests</p>
+        {% else %}
+        <div class='group'>
+        <table class="table table-hover">
+           <thead>
+             <tr class='d-flex'>
+              <th class='col-3'> Name </th>
+              <th class='col-9'> Actions</th>
+            </tr>
+          </thead>
 
-{% if user.id == sessionid %}
-      <h6> Friend Requests:</h6>
-    <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-          <th> Actions</th>
-        </tr>
-      </thead>
+          {% for friend in friends %}
+            <tr class='d-flex'>
+              <td class='col-3'> <a class='username' href="/profile/{{friend.id}}">{{friend.name}}</a></td>
+              <td class='col-9'> 
+                <a href="/acceptfriends/{{friend.id}}/"> <button class='action'>Accept </button></a>
+                <a href="/denyfriends/{{friend.id}}"> <button class='action'>Deny </button></a>
+              </td>
+            </tr>
+            
+          {% endfor %}
+          </table>
+        {% endif %}
+      </div>
 
-      <!-- This Template requires a list of users who have requested CURRENT USER to be a friend.-->        
-      {% for friend in friends %}
-        <tr>
-
-          <td> <a href="/profile/{{friend.id}}">{{friend.name}}</a></td>
-          <td> <a href="/acceptfriends/{{friend.id}}/"> Accept </a><a href="/denyfriends/{{friend.id}}"> Deny </a></td>
-        </tr>
-        
-        {% endfor %}
-      </table>
-
-{% endif %}
-     
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
+    {% endif %}
+    </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      </div>
+    </div>
     </body>
 </html>

@@ -1,0 +1,22 @@
+.left-side{
+	display: inline-block;
+	padding: 0px;
+	margin-right: 70px;
+	vertical-align: top;
+}
+.right-side{
+	display: inline-block;
+	padding: 0px;
+}
+.liked{
+	background-color: #20d000;
+}
+.disliked{
+	background-color: #f9e601;
+}
+.hated{
+	background-color: #ff5050;
+}
+.all-cuisine{
+	background-color: #006adc;
+}

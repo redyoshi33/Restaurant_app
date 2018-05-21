@@ -1,0 +1,15 @@
+
+.left-side{
+	display: inline-block;
+	padding-left: 30px;
+	margin-right: 80px;
+	vertical-align: top;
+}
+.right-side{
+	display: inline-block;
+	padding: 0px;
+}
+#map{
+	height: 500px;
+	width: 500px;
+}

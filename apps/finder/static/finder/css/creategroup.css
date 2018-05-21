@@ -1,0 +1,31 @@
+.left-side{
+	display: inline-block;
+	padding: 0px;
+	vertical-align: top;
+}
+.right-side{
+	display: inline-block;
+	padding: 0px;
+}
+.create-btn {
+	margin-top: 30px;
+	background-color: #FFA500;
+	color: white;
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+.align-btn {
+	width: 76%;
+	text-align: right;
+}
+.forminput {
+	margin: 0px 20px;
+	width: 100%;
+	height: 36px;
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+	padding-left: 10px;
+}
+.groupimg {
+	width: 500px;
+}

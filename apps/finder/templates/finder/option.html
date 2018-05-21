@@ -5,15 +5,12 @@
       <title>Options</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
-
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/option.css">
     </head>
 
     <body>
-      <div class="container">
-        
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm" id='navbar'>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -30,74 +27,81 @@
 
           </div>
         </nav>
-<br>
-        <div id="map" style='height: 300px'></div>
-              <script>
-                var map; 
-                
-                function initMap() {
-                  var bounds = new google.maps.LatLngBounds();
-                  var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
-                  var infoWindow = new google.maps.InfoWindow()
-                  map = new google.maps.Map(document.getElementById('map'), {
-                    center: myLatLng,
-                    zoom: 13
-                  });
-                  var marker
-                  marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'Location_marker'
-                  });
-                  google.maps.event.addListener(marker, 'click', (function(marker) {
-                        return function() {
-                            infoWindow.setContent('Our location');
-                            infoWindow.open(map, marker);
-                        }
-                    })(marker));
-                  var markers = [
-                  {% for choice in choices %}
-                    ["{{choice.name}}", {{choice.lat}}, {{choice.lon}}],
-                  {% endfor %}
-                  ]
-                  for( i = 0; i < markers.length; i++ ) {
-                    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-                    bounds.extend(position);
-                    marker = new google.maps.Marker({
-                        position: position,
-                        map: map,
-                        title: markers[i][0]
+      <div class="container">
+        <h2>Options:</h2>
+        <div class='left-side col-5'>
+           <!-- Expects 3 resturants to be passed in -->
+           {% if no_options %}
+            <p>Couldn't find anything.. Maybe try again!</p>
+            {% else %}
+            {% for option in choices %}
+              <h3>
+                {{option.name}}
+              </h3>
+              <p> Cuisine Type: {{option.cuisine.capitalize}}</p>
+              <p> Address: {{option.address}}</p>
+            {% endfor %}
+          {% endif %}
+            <div class='align-btn'>
+              <a href="/group/{{group.id}}/generate" ><button type="button">Try Again!</button></a>      
+            </div>
+        </div>
+        <div class='right-side col-6'>
+          <div id="map"></div>
+                <script>
+                  var map; 
+                  
+                  function initMap() {
+                    var bounds = new google.maps.LatLngBounds();
+                    var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
+                    var infoWindow = new google.maps.InfoWindow()
+                    map = new google.maps.Map(document.getElementById('map'), {
+                      center: myLatLng,
+                      zoom: 13
                     });
-                    
-                    // Allow each marker to have an info window    
-                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                        return function() {
-                            infoWindow.setContent(markers[i][0]);
-                            infoWindow.open(map, marker);
-                        }
-                    })(marker, i));
+                    var marker
+                    bounds.extend(myLatLng)
+                    marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: 'Location_marker'
+                    });
+                    google.maps.event.addListener(marker, 'click', (function(marker) {
+                          return function() {
+                              infoWindow.setContent('Our location');
+                              infoWindow.open(map, marker);
+                          }
+                      })(marker));
+                    var markers = [
+                    {% for choice in choices %}
+                      ["{{choice.name}}", {{choice.lat}}, {{choice.lon}}],
+                    {% endfor %}
+                    ]
+                    for( i = 0; i < markers.length; i++ ) {
+                      var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                      bounds.extend(position);
+                      marker = new google.maps.Marker({
+                          position: position,
+                          map: map,
+                          title: markers[i][0]
+                      });
+                      
+                      // Allow each marker to have an info window    
+                      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                          return function() {
+                              infoWindow.setContent(markers[i][0]);
+                              infoWindow.open(map, marker);
+                          }
+                      })(marker, i));
 
-                    // Automatically center the map fitting all markers on the screen
-                    map.fitBounds(bounds);
+                      // Automatically center the map fitting all markers on the screen
+                      map.fitBounds(bounds);
+                  }
                 }
-              }
-              </script>
-              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap" async defer></script>
-
-      <!-- Expects 3 resturants to be passed in -->
-      {% for option in choices %}
-        <h3>Option:
-        <small class="text-muted"> {{option.name}}</small>
-        </h3>
-        <p> Cuisine Type: {{option.cuisine.capitalize}}</p>
-        <p> Address: {{option.address}}</p>
-      {% endfor %}
-<br>
-        <a href="/group/{{group.id}}/generate" ><button class="btn btn-secondary" type="button">Try Again!</button></a>
-
-
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap" async defer></script>
+        </div>
      
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       </div>

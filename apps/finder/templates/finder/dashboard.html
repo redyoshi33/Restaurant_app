@@ -5,81 +5,81 @@
       <title>Dashboard</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/dashboard.css">
 
     </head>
 
     <body>
+    <nav class="navbar navbar-expand-sm" id="navbar">
+        <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href="/profile/{{sessionid}}" class='nav-link'>My Profile</a></li>
+            <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
+            <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li> 
+            <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
+          </ul>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav> 
       <div class="container">
-        
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <a class="navbar-brand" href="#">WEEH: Where eat? Eat Here</a>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-             <ul class="navbar-nav mr-auto">
-              <li class="nav-item"><a href="/profile/{{sessionid}}" class='nav-link'>My Profile</a></li>
-              <li class="nav-item"><a href="/addfriends" class='nav-link'>Add Friends</a></li>
-              <li class="nav-item"><a href="/creategroup" class='nav-link'>Create Group</a></li> 
-              <li class="nav-item"><a href="/logout" class='nav-link'>Logout</a></li>
-            </ul>
-
-          </div>
-        </nav> 
-<br>
         <h3>My Dashboard</h3>
+        <div class='left-side col-4'>
+          <h6> My Friends:</h6>
+          <div class='group'>
+            <table class="table table-hover">
+              <thead>
+                <tr class="d-flex">
+                  <th class='col-3'> Name </th>
+                  <th class='col-9'> Actions</th>
+                </tr>
+              </thead>
+          
+            {% for friend in myfriends %}
+              <tr class="d-flex">
+                <td class='col-3'> <a class='username' href="/profile/{{friend.id}}">{{friend.name}}</a></td>
+                <td class='col-9'> <a href="/unfriend/{{friend.id}}/"> <button class='action'>Unfriend </button></a></td>
+              </tr>  
+            {% endfor %}
+            </table>
+          </div>
+          <a href="/addfriends"><button>Add Friends</button></a>
+        </div>
 
+        <div class='right-side col-7'>
+          <h6> My Groups:</h6>
+          <div class='group'>
+            <table class="table table-hover">
+              <thead>
+                <tr class="d-flex">
+                  <th class='col-3'> Group Name </th>
+                  <th class='col-9'> Actions</th>
+                </tr>
+              </thead>
+           
+            {% for group in mygroups %}
+                <tr class="d-flex">
+                  <td class='col-3'> <a class='username' href="/group/{{group.id}}">{{group.name}}</a></td>
+                  <td class='col-9'> 
+                    <a href="/group/{{group.id}}"> <button class='action'>View </button></a>
+                    <a href="group/{{group.id}}/leavegroup"> <button class='action'>Leave </button></a>
+                  </td>
+                </tr>
+            {% endfor %}
+            </table>
+          </div>
+          <a href="/creategroup"> <button>Create a New Group </button></a>
+        </div>
 
-      <h6> My Groups:</h6>
-    <table class="table table-hover ">
-       <thead class="thead-dark">
-         <tr>
-          <th> Group Name </th>
-          <th> Actions</th>
-
-
-        </tr>
-      </thead>
-
-      <!-- This Template requires a list of groups passed in where the user is a member of.-->        
-      {% for group in mygroups %}
-        <tr>
-
-          <td> <a href="/group/{{group.id}}">{{group.name}}</a></td>
-          <td> <a href="group/{{group.id}}/leavegroup"> Leave </a></td>
-        </tr>
-        
-        {% endfor %}
-      </table>
-      <a href="/creategroup"> Create a New Group </a><br><Br>
-      <h6> My Friends:</h6>
-    <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-          <th> Actions</th>
-        </tr>
-      </thead>
-
-      <!-- This Template requires a list of friends passed in where the user is a friend.-->        
-      {% for friend in myfriends %}
-        <tr>
-
-          <td> <a href="/profile/{{friend.id}}">{{friend.name}}</a></td>
-          <td> <a href="/unfriend/{{friend.id}}/"> Unfriend </a></td>
-        </tr>
-        
-        {% endfor %}
-      </table>
-        <a href="/addfriends" class='nav-link'>Add Friends</a>
-
-     
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       </div>
+      <div class="fixed-bottom">
+        <img class='footerimg' src="/static/finder/img/food dishes.jpg" alt='food dishes img'>
+      </div>
+      
     </body>
 </html>

@@ -5,15 +5,12 @@
       <title>Group</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
-
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/group.css">
     </head>
 
     <body>
-      <div class="container">
-        
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm" id='navbar'>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -29,92 +26,82 @@
 
           </div>
         </nav> 
-<br>
-      <!-- This Template requires a group-->  
-        <h3>{{group.name}}
-        </h3>
-        <a href="/group/{{group.id}}/leavegroup"> Leave Group</a>
-        <h6> Current Location </h6>
-        <div id="map" style='height: 300px'></div>
-              <script>
-                var map; 
-                
-                function initMap() {
-                  var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
-                  map = new google.maps.Map(document.getElementById('map'), {
-                    center: myLatLng,
-                    zoom: 13
-                  });
-                  var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'Location_marker'
-                  });
-                }
-              </script>
-              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap"
-              async defer></script>
+      <div class="container">
 
-      <!-- This Template requires a list of users who are members of the group.-->   
+        <h3>{{group.name}}</h3>
+        <div class='left-side col-5'>
+          <a href="/group/{{group.id}}/leavegroup"> Leave Group</a>
+          <h6> Current Location </h6>
+          <div id="map"></div>
+                <script>
+                  var map; 
+                  
+                  function initMap() {
+                    var myLatLng = {lat: {{group.lat}}, lng: {{group.lon}}};
+                    map = new google.maps.Map(document.getElementById('map'), {
+                      center: myLatLng,
+                      zoom: 13
+                    });
+                    var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: 'Location_marker'
+                    });
+                  }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5OfM5SkK0FFmAIRQRKWn5J4yRvd8nq_Q&callback=initMap"
+                async defer></script>  
+          <div class='align-btn'>
+            <a href="/group/{{group.id}}/generate" ><button class="generate-button" type="button">Generate!</button></a>
+          </div>
+        </div>
+        <div class='right-side col-5'>
+          <div class='group'>
+          <table class="table table-hover">
+             <thead>
+               <tr class="d-flex">
+                <th class='col-12'> Members </th>
+              </tr>
+            </thead>
+          
+            {% for user in users %}
+              <tr class="d-flex">
+                <td class='col-12'> <a  class='username' href="/profile/{{user.id}}">{{user.name}}</a></td>
+              </tr>
+              
+              {% endfor %}
+            </table>
+          </div>
+          <form action="/group/{{group.id}}" method='post'>
+            <h6> Add Users</h6>
+              {% csrf_token %}
+              <div class="input-group">
+                <input type="text" class='forminput' name='search' placeholder="Search users...">
+                 <span class="input-group-btn">
+                  <button type="submit">Go!</button>
+                 </span>
+          </div>
+          </form>
+          <div class='group'>
+            <table class="table table-hover">
+             <thead>
+               <tr class="d-flex">
+                <th class='col-3'> Friends </th>
+                <th class='col-9'> Actions</th>
+              </tr>
+            </thead>
+            {% for friend in myfriends %}
+              <tr class="d-flex">
+                <td class='col-3'> <a class='username' href="{{friend.id}}/">{{friend.name}}</a></td>
+                <td class='col-9'> <a href="/group/{{group.id}}/addmember/{{friend.id}}/"> <button class='action'>Add to group</button></a></td>
+              </tr>
+              
+            {% endfor %}
+            </table>
+          </div>
+          
+        </div>
 
-
-      <h6>Members:</h6>
-    <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-
-        </tr>
-      </thead>
-
-      <!-- This Template requires a list of users who have requested CURRENT USER to be a friend.-->        
-      {% for user in users %}
-        <tr>
-
-          <td> <a href="/profile/{{user.id}}">{{user.name}}</a></td>
-
-        </tr>
-        
-        {% endfor %}
-      </table>
-
-
-     
-  
-     <form action="/group/{{group.id}}" method='post'>
-       <h6> Add Users</h6>
-     {% csrf_token %}
-    <div class="input-group">
-      <input type="text" class="form-control" name='search' placeholder="Search users...">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit">Go!</button>
-      </span>
-    </div>
-    </form><br>
-    <h6> My Friends:</h6>
-    <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-          <th> Actions</th>
-        </tr>
-      </thead>
-
-      <!-- This Template requires a list of friends passed in where the user is a friend.-->        
-      {% for friend in myfriends %}
-        <tr>
-
-          <td> <a href="{{friend.id}}/">{{friend.name}}</a></td>
-          <td> <a href="/group/{{group.id}}/addmember/{{friend.id}}/"> Add to group</a></td>
-        </tr>
-        
-        {% endfor %}
-      </table>
-    <br>
-    <a href="/group/{{group.id}}/generate" ><button class="btn btn-secondary" type="button">Generate!</button></a>
-
-
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       </div>

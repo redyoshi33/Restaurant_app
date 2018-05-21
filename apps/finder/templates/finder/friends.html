@@ -5,15 +5,12 @@
       <title>Dashboard</title>
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" type="text/css" href="/static/styles.css">
-
-
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/finder/css/friends.css">
     </head>
 
     <body>
-      <div class="container">
-        
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-sm" id='navbar'>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -29,45 +26,40 @@
 
           </div>
         </nav> 
-<br>
+      <div class="container">
         <h3>Users</h3>
-
-
-
      
-     <form action="/addfriends" method='post'>
-       <h6> Search Users</h6>
-     {% csrf_token %}
-    <div class="input-group">
-      <input type="text" class="form-control" name='search' placeholder="Search users...">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit">Go!</button>
-      </span>
-    </div>
-    </form>
+        <form action="/addfriends" method='post'>
+          <h6> Search Users</h6>
+          {% csrf_token %}
+          <div>
+            <input class='forminput' type="text" name='search' placeholder="Search users...">
+            <span>
+              <button type="submit">Go</button>
+            </span>
+          </div>
+        </form>
 
      <h6> All Users</h6>
     <table class="table table-hover">
-       <thead class="thead-dark">
-         <tr>
-          <th> Name </th>
-          <th> Actions</th>
+       <thead>
+         <tr class="d-flex">
+          <th class='col-3'> Name </th>
+          <th class='col-9'> Actions</th>
         </tr>
       </thead>
 
-      <!-- This Template requires a list of friends passed in where the user is NOT a friend.-->        
       {% for user in users %}
-        <tr>
-          <td> <a href="/profile/{{user.id}}">{{user.name}}</a></td>
-          <td> <a href="/addfriends/request/{{user.id}}"> Add Friend </a></td>
+        <tr class="d-flex">
+          <td class='col-3'> <a class='username' href="/profile/{{user.id}}">{{user.name}}</a></td>
+          <td class='col-9'>
+            <a href="/profile/{{user.id}}"><button class='action'>View Profile</button></a>
+            <a href="/addfriends/request/{{user.id}}"> <button class='action'>Add Friend </button></a>
         </tr>
         
         {% endfor %}
       </table>
 
-
-     
-      <!-- read on to learn about form actions, we'll talk about the method in a later section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       </div>
